@@ -1,0 +1,59 @@
+{
+    // 使用 IntelliSense 了解相关属性。 
+    // 悬停以查看现有属性的描述。
+    // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "t2-", "type": "cppdbg", "request": "launch", "preLaunchTask": "b--lib",
+            "program": "/opt2/debug/zhscript2-rust/l", "args": [
+                "z.zs", "t2-"
+            ], "stopAtEntry": false, "cwd": "${workspaceFolder}", "environment": [], "externalConsole": false, "MIMode": "gdb",
+            "setupCommands": [{"text": "-enable-pretty-printing", "ignoreFailures": true}, {"text": "-gdb-set disassembly-flavor intel", "ignoreFailures": true}]
+        }
+        ,
+        {
+            "name": "t-ev", "type": "cppdbg", "request": "launch", "preLaunchTask": "b--lib",
+            "program": "/opt2/debug/zhscript2-rust/l", "args": [
+                "z.zs", "t-ev"
+            ], "stopAtEntry": false, "cwd": "${workspaceFolder}", "environment": [], "externalConsole": false, "MIMode": "gdb",
+            "setupCommands": [{"text": "-enable-pretty-printing", "ignoreFailures": true}, {"text": "-gdb-set disassembly-flavor intel", "ignoreFailures": true}]
+        }
+        ,
+        {
+            "name": "t-bf", "type": "cppdbg", "request": "launch", "preLaunchTask": "b--lib",
+            "program": "/opt2/debug/zhscript2-rust/l", "args": [
+                "z.zs", "t-bf"
+            ], "stopAtEntry": false, "cwd": "${workspaceFolder}", "environment": [], "externalConsole": false, "MIMode": "gdb",
+            "setupCommands": [{"text": "-enable-pretty-printing", "ignoreFailures": true}, {"text": "-gdb-set disassembly-flavor intel", "ignoreFailures": true}]
+        }
+        ,
+        {
+            "name": "tdir", "type": "cppdbg", "request": "launch", "preLaunchTask": "b--lib",
+            "program": "/opt2/debug/zhscript2-rust/l", "args": [
+                "z.zs", "tdir"
+            ], "stopAtEntry": false, "cwd": "${workspaceFolder}", "environment": [], "externalConsole": false, "MIMode": "gdb",
+            "setupCommands": [{"text": "-enable-pretty-printing", "ignoreFailures": true}, {"text": "-gdb-set disassembly-flavor intel", "ignoreFailures": true}]
+        }
+        ,
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug unit tests in  'buding2'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--lib",
+                    "--package=buding2"
+                ],
+                "filter": {
+                    "name": "buding2",
+                    "kind": "lib"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        }
+    ]
+}

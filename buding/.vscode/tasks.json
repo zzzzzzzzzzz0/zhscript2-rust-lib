@@ -1,0 +1,40 @@
+{
+    "tasks": [
+        {
+            /*
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug unit tests in library 'buding'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--lib",
+                    "--package=buding"
+                ],
+                "filter": {
+                    "name": "buding",
+                    "kind": "lib"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+            */
+            "type": "shell",
+            "label": "b--lib",
+            "command": "cargo",
+            "args": [
+                "b", "--lib"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": ["$gcc"],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+        }
+    ],
+    "version": "2.0.0"
+}

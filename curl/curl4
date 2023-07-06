@@ -1,0 +1,15 @@
+模块“curl库”。
+
+函数集“libcurl.so”、“libcurl.so.4”。
+
+函数“curl_easy_init”以、“&”。
+函数“curl_easy_cleanup”以、“-&”。
+赋予
+“CURLOPT_URL”、
+“CURLOPT_HEADER”、
+“CURLOPT_NOBODY”以“10002”、“42”、“44”。
+函数“curl_easy_setopt”以、“i-&-i-c*”（handle、opt、param）。
+函数“curl_easy_perform”以、“i-&”。
+
+
+函数“curl_version”以、“c*”。

@@ -1,0 +1,43 @@
+#!/usr/lib/zhscript2-rust/l --。
+赋予调试【顶】、更多【顶】、公共【顶】以。
+定义提示、内容以下代码
+	显示“# ‘内容’”换行。
+上代码。
+定义运行、命令、饶以下代码
+	如果‘更多’或者‘调试’那么提示‘命令’。
+	如果‘调试’那么返回。
+	赋予错、错2以执行‘命令’。
+	如果‘更多’那么提示“‘错’ ‘错2’”。
+	如果‘错’并且不‘饶’那么先
+		如果不‘更多’那么先
+			提示‘命令’。
+			提示“‘错’ ‘错2’”。
+		了。
+		结束‘错’
+	了。
+	‘错’
+上代码。
+定义行解以下代码
+	调用‘命令行解析’、‘解’、‘参数栈’。
+上代码。
+
+加载lib/clpars4。
+赋予解以调用‘命令行加回调’、、
+	l、“运行“ls -lh --color””、0、、
+	--、下代码
+		赋予公共【顶】以‘公共’“ ‘参数1’”。
+	上代码、1、、
+	-h2、“赋予调试【顶】以1。”、0、、
+	-h4、“赋予更多【顶】以1。”、0、、
+	#、、h、下代码
+		加载lib/（）curl4。
+		显示先调用‘curl_version’了换行。
+		赋予柄以调用‘curl_easy_init’。
+		调用‘curl_easy_setopt’、‘柄’、‘CURLOPT_URL’、https://download.pytorch.org/libtorch/cpu/libtorch-shared-with-deps-1.11.0%2Bcpu.zip。
+		调用‘curl_easy_setopt’、‘柄’、‘CURLOPT_HEADER’、1。
+		调用‘curl_easy_setopt’、‘柄’、‘CURLOPT_NOBODY’、1。
+		赋予果以调用‘curl_easy_perform’、‘柄’。
+		显示‘果’换行。
+		调用‘curl_easy_cleanup’、‘柄’。
+	上代码。
+调用‘命令行解析’、‘解’、‘参数栈’。

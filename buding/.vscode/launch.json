@@ -1,0 +1,72 @@
+{
+    // 使用 IntelliSense 了解相关属性。 
+    // 悬停以查看现有属性的描述。
+    // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug unit tests in library 'buding'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--lib",
+                    "--package=buding"
+                ],
+                "filter": {
+                    "name": "buding",
+                    "kind": "lib"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug executable 'buding'",
+            "cargo": {
+                "args": [
+                    "build",
+                    "--bin=buding",
+                    "--package=buding"
+                ],
+                "filter": {
+                    "name": "buding",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "name": "(gdb) test strmid", "type": "cppdbg", "request": "launch", "preLaunchTask": "b--lib",
+            "program": "/opt2/debug/zhscript2-rust/l", "args": [
+                "/zzzzzzzzzzz4/home/zzzzzzzzzzz/test/rust-zs2/buding-strmid.zs"
+            ], "stopAtEntry": false, "cwd": "/tmp", "environment": [], "externalConsole": false, "MIMode": "gdb",
+            "setupCommands": [{"text": "-enable-pretty-printing", "ignoreFailures": true}, {"text": "-gdb-set disassembly-flavor intel", "ignoreFailures": true}]
+        }
+        ,
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug unit tests in executable 'buding'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--bin=buding",
+                    "--package=buding"
+                ],
+                "filter": {
+                    "name": "buding",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        }
+    ]
+}

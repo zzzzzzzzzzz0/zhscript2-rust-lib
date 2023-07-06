@@ -1,0 +1,16 @@
+[package]
+name = "buding"
+version = "0.1.0"
+authors = ["zzzzzzzzzzz <zzzzzzzzzzzgg@gmail.com>"]
+edition = "2018"
+
+[lib]
+crate-type = ["dylib"]
+
+[dependencies]
+
+[profile.release]
+#opt-level = 3 #3 "z" "s"
+#lto = true
+#codegen-units = 1
+strip = true
