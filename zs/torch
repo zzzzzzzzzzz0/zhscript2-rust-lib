@@ -1,0 +1,20 @@
+模块“torch库”。
+
+函数集“‘参数0’.so‘参数1’”。
+
+函数“得设备”以“devi__”、“&-c*”（设备。cpu, cuda, xpu, mkldnn, opengl, opencl, ideep, hip, msnpu, mlc, xla, vulkan, meta, hpu）。
+函数“得图片”以“get_img__”、“-$:A-c*-&-Z”（入、宽、高。图片路径、设备（、缩宽、缩高、插值方式（i，c：INTER_CUBIC）、返回类型（i，0 1）））。
+函数“得空柄”以“h3__”、“&”。
+函数“加载模型”以“load__”、“&-c*-&”（模型。模型路径、设备）。
+函数“运行模型”以“run__”、“-$:A-&-i-Z”（出。模型、of（出的类型：0 1 2（list））（、入（图片）……））。
+函数“非极大值抑制”以“non_max_suppression__”、“-&-&”（出、gjks4列表）。
+函数“保存图片”以“save_img__”、“i-c*-c*-Z”（图片路径、存到路径（
+	、定格（默认：8b9a61/ffffff,e90cd8/ffffff,2,1,1,2）
+	、left、top、right、bottom、score、colori、classname）…
+	）。
+函数“保存图片二”以“save_img2__”、“i-&-&-i-i-i-i-c*”（出、图片、变宽、变高、宽、高、存到路径）。
+函数“保存图片三”以“save_img3__”、“i-&-&-c*-i-&-c*”（出、柄、柄、剥蚀率、设备、存到路径）。
+函数“得线程数”以“get_num_threads__”、“i”。
+函数“设线程数”以“set_num_threads__”、“-i”。
+
+函数“test_f__”以、“f-f-f”。
