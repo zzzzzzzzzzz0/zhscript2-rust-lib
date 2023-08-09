@@ -1,0 +1,372 @@
+#!/usr/lib/zhscript2-rust/l --。
+赋予调试【顶】、more【顶】以。
+定义提示、内容以下代码
+	显示“# ‘内容’”换行。
+上代码。
+定义运行、命令、饶以下代码
+	提示‘命令’“ #饶=‘饶’”。
+	如果‘调试’那么先
+		提示未‘参数0’。
+		返回。
+	了。
+	赋予错、错2以执行‘命令’。
+	提示“?‘错’ ‘错2’”。
+	如果‘错’或者‘错2’那么
+	如果不‘饶’那么结束10。
+上代码。
+定义行解以下代码
+	调用‘命令行解析’、‘解’、‘参数栈’。
+上代码。
+
+赋予out以/tmp/out。
+赋予outp以‘out’.png。
+
+加载lib/buding。
+加载lib2/util.zs。
+加载lib/clpars4。
+加载lib/gjke4。
+加载lib/doscmd4。
+加载lib/stdc。
+加载lib/file4。
+
+定义设环境、版本以下代码
+	赋予库版【上】以分叉‘版本’先
+		“6”	1.12.1。
+		“5”	1.11.0。
+		“4”	1.9.1。
+		“3”	1.9.0。
+		“2”	1.7.1+cu110。
+		先了	1.6.0+cpu。
+		先
+			提示“‘版本’ 未支持”。
+			结束1。
+		了
+	了。
+	赋予...3【上】以-‘库版’。
+	赋予libtorch/【上】、lib3【上】以
+		分叉‘版本’先
+			“/opt5/disk/wd1t”。
+			、“2”、“3”/zzzzzzzzzzz6。
+			“6”先了。
+		了
+		/zzzzzzzzzzz4/opt/分叉‘版本’先
+			先
+				local/lib/python3.分叉‘版本’先
+					“8”。
+					“3”、“4”6。
+					“6”10。
+				了“/dist-packages/torch”
+			了。
+			、“2”先lib/torch/libtorch-cxx11-abi-shared-with-deps‘...3’了。
+		了
+	/、lib3/torch/‘库版’。
+	赋予...1【上】、...2【上】以“ 
+			-I‘libtorch/’include/torch/csrc/api/include 
+			-I‘libtorch/’include 
+			-I‘libtorch/’include/torch 
+			-I.. 
+			-L‘libtorch/’lib 
+			”
+			分叉‘版本’先
+			“
+			-ltorch 
+			-ltorch_cuda 
+			-ltorch_cpu 
+			-lc10_cuda 
+			-lc10 
+			”。
+				先了
+			“
+			-ltorch_cpu 
+			-lcaffe2_detectron_ops 
+			-lc10 
+			”
+			了
+			分叉‘版本’先
+			“-D_GLIBCXX_USE_CXX11_ABI=0 ”。
+				2先了
+			了
+			“
+			=lp ‘lib3’ 
+			”
+			、
+			“
+			=11 
+			”。
+	赋予...【上】以“‘...1’ ‘...2’”。
+			（
+			=lp ‘libtorch/’lib 
+			）
+上代码。
+定义删除以下代码
+	运行“sh -c "rm ‘参数1’"”、‘参数栈【2】’。
+上代码。
+
+赋予解以调用‘命令行加回调’、‘参数0’换行、
+	先
+		定义糊、后以下代码
+			““ls -lh --color‘后’””
+		上代码。
+	了
+	l、“执行”先糊了、0、、
+	l2、“运行“sh -c '””先糊“ /usr/local/lib/python3.6/dist-packages/torch/lib/libtorch*”了'、0、、
+	i、下代码
+		运行“apt.zs i libopencv-dev libpng++-dev”
+	上代码、r、、
+	s(|2|3)(u?)、库关联、r、下代码
+		设环境‘参数1’。
+		赋予以‘libtorch/’lib/lib。
+		定义我行、库以下代码
+			执行“ldd ‘库’”、-出、下代码
+				别名串以参数1。
+				赋予1以调用‘串位置’、‘串’、‘’。
+				如果‘1’大于0那么先
+					赋予2以调用‘串截取’、‘串’、‘1’、调用‘串位置’、‘串’、“ (”。
+					显示“ldd ‘2’”换行。
+					（我行‘2’）
+				了否则
+					显示“echo ‘参数’”换行。
+			上代码。
+		上代码。
+		我行‘’torch_分叉‘参数2’先
+			“u”cuda。
+			cpu
+		了.so。
+	上代码、
+	n(|2|3)、“nm -C”、r1、下代码
+		设环境‘参数1’。
+		赋予目录以‘libtorch/’lib。
+		赋予搜以调用‘dir.begin’、‘目录’、、s。
+		循环先
+			赋予名以调用‘dir.next’、‘搜’。
+			如果不‘名’那么跳出。
+			显示制表符‘名’换行。
+			赋予路径以‘目录’/‘名’。
+			执行“sh -c '‘属性rem’ ‘路径’|grep "‘参数2’"'”。
+		了。
+		调用‘dir.end’、‘搜’。
+	上代码、
+	f(|2|3)、下代码
+		执行“f3.zs ‘libtorch/’include -i "-type f -exec grep -Hn '‘参数2’' {} \;" -ii '+-7' -ini-2 '使置顶' -nol”
+	上代码、ra、下代码
+		设环境‘参数1’。
+		解释【在当前区】‘属性rem’
+	上代码、
+	pt|pt2|pt4、下代码
+		运行“python3 pth2pt.py ‘参数1’ ”分叉‘参数0’先
+			pt4：.model。
+		了
+	上代码、1、、
+	1r、下代码
+		运行“./fast_neural_style.py”。
+		行解o。
+	上代码、0、、
+	52h、下代码
+		调用‘设环境变量’、PYTHONPATH、/zzzzzzzzzzz6/zzzzzzzzzzz4/opt/src/github.com.cnpmjs.org/BITHG287/Semantic_Human_Matting-PyTorch_OpenVINO、1。
+	上代码、0、、
+	52.py、下代码
+		行解52h。
+		运行“python3 ”先调用‘得目录名’、‘参数0【顶】’了“‘参数0’ ‘参数’”。
+	上代码、a、、
+	9r、、0、下代码（webkitAsh）
+		运行“/usr/lib/zhscript2-rust/l -zhscript-src-is-code '执行“./9v p zidane.jpg ‘outp’ 
+2 1.875 
+367.457886 16.30072 583.877441 384.638611 0.784937 0 
+56.030365 116.339737 354.953705 383.748108 0.497331 0 
+200.717804 228.885529 287.406067 383.779602 0.428243 27 
+		”' ”。
+		行解o。
+	上代码、
+	（
+								9先“&& ./‘号’‘标’ r ./yolov5s.torchscript.pt ./zidane.jpg”了。
+	）
+	-c、、8、下原样
+		别名带3、它、它库2、它库、名、带版、出名、版以参数8、参数7、参数6、参数5、参数4、参数3、参数2、参数1。
+		设环境‘版’。
+		（运行reset。）
+		运行“gxx.zs ”先如果‘more’那么“=s ”了“-o ‘出名’”先如果‘带版’那么‘库版’了“ ‘名’ ”分叉‘它库’先
+			i“../image_io.cpp”。
+			ii“../image_io2.cpp”。
+		了“ ”分叉‘它库’先
+			v先
+				“= opencv”分叉‘版’先
+					4‘版’
+				了
+			了。
+		了“ ”分叉‘它库2’先
+			p“-l png”。
+		了‘...’‘它’分叉‘带3’先
+			1‘...3’。
+			2‘lib3’。
+		了。
+	上原样、
+	(\d+)(|v|i|ii)(|p)(\d?)(|o)([a-n]*)(\.cpp)、下原样
+		别名版、果、它库2、它库、号以参数4、参数5、参数3、参数2、参数1。
+
+		赋予起以-1。
+		赋予名以循环【‘参数数目’】【次】【‘起’】
+			如果‘次’大于0那么‘参数‘次’’。
+		赋予出名以/tmp/torch-test-‘名’。
+
+		行解-c、‘版’、‘出名’、、‘名’‘参数‘参数数目’’、‘它库’、‘它库2’、、。
+		运行‘出名’。
+		分叉‘果’先
+			“o”先行解‘果’了。
+		了
+	上原样、r、、
+	c(|v|i|ii)(|p)(d?)(|2|3|4|5|6)、、r、下代码
+		显参。
+		别名调、它库2、它库、版以参数3、参数2、参数1、参数‘参数数目’。
+		行解-c、‘版’、lib4/torch.so、1、../main分叉‘版’先
+			4。
+			、2、3分叉‘它库’先
+				v：2。
+			了
+		了.cpp、‘它库’、‘它库2’、“-shared -fPIC ”分叉‘调’先
+			d：“-g3 -O0”。
+			“-O3”
+		了“ -Wall -fmessage-length=0 -MMD -MP 
+		=lp lib3 
+		=lp lib5 ”
+		（“=lp lib3”、1）
+		“=lp /tmp/”、2。
+		删除lib4/*.d。
+	上代码、
+	cc、“（当前编译）行解ci6”、0、、
+	main(|2|4)\.cpp、、r、下代码
+		别名版以参数1。
+		行解c分叉‘版’先
+			2“vp3”。
+			4先i‘版’了。
+		了
+	上代码、
+	ln(4|5|6)、、r、下代码
+		设环境‘参数1’。
+		赋予源/、标/以‘libtorch/’lib/、‘lib3’/。
+		调用‘mkdir’、‘标/’。
+		调用‘迭代三’、下代码
+			别名名以参数1。
+			运行“ln.zs ‘源/’‘名’ ‘标/’‘名’”
+		上代码、1、
+		libtorch_cpu.so、
+		libtorch_cuda.so、
+		libtorch.so、
+		libc10_cuda.so、
+		libc10.so、
+		libcudart-80664282.so.10.2、libgomp-a34b3233.so.1、libnvToolsExt-3965bdd0.so.1、
+		libcublasLt.so.10、
+		libcublas.so.10。
+		执行“ls -l --color ‘标/’”。
+	上代码、
+	t(|2|3|6)、、r、下代码
+		设环境‘参数1’。
+		加载lib4/torch、‘库版’。
+		显示先调用‘test_f__’、1、2了换行。
+	上代码、
+	meld|meld2|meld3、下代码
+		分叉‘参数0’先
+			meld赋予...3以。
+			先
+				设环境分叉‘参数0’先
+					meld2“2”。
+				了。
+			了
+		了。
+		运行“meld ./lib/ /opt2/opt/imgstyleji/lib‘...3’”
+	上代码、0、、
+	o、“运行“xdg-open ‘outp’”。”、0、、
+	rmo、“删除‘out’*、1。”、0、、
+	x、、0、下代码
+	上代码、
+	
+	-h2、“赋予调试【顶】以1。”、0、、
+	-h4、“赋予more【顶】以1。”、0、、
+	#、、h、。
+行解‘参数栈’。
+（
+so.zs f _ZN2cv7putTextERKNS_17_InputOutputArrayERKSsNS_6Point_IiEEidNS_7Scalar_IdEEiib
+c++filt -n _ZN2cv7putTextERKNS_17_InputOutputArrayERKSsNS_6Point_IiEEidNS_7Scalar_IdEEiib
+cv::putText(cv::_InputOutputArray const&, std::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, cv::Point_<int>, int, double, cv::Scalar_<double>, int, int, bool)
+
+strings lib/torch.so1.11.0 |grep GLIBCXX
+GLIBCXX_3.4.29
+GLIBCXX_3.4.26
+GLIBCXX_3.4.14
+GLIBCXX_3.4.9
+GLIBCXX_3.4.11
+GLIBCXX_3.4
+strings lib/torch.so1.10.0 |grep GLIBCXX
+GLIBCXX_3.4.14
+GLIBCXX_3.4.9
+GLIBCXX_3.4.11
+GLIBCXX_3.4
+strings lib/torch.so1.9.1 |grep GLIBCXX
+GLIBCXX_3.4.14
+GLIBCXX_3.4.11
+GLIBCXX_3.4.9
+GLIBCXX_3.4
+strings lib/torch.so1.9.0 |grep GLIBCXX
+GLIBCXX_3.4.11
+GLIBCXX_3.4.9
+GLIBCXX_3.4
+
+	（2c2、、0、下代码
+		运行“gxx.zs 2dcgan.cpp 
+		-I./libtorch/include 
+		-I./libtorch/include/torch/csrc/api/include 
+		-L./libtorch/lib 
+		-ltorch_cpu 
+		-lcaffe2_detectron_ops 
+		-lc10 
+		-std=c++17 
+		=lp libtorch/lib 
+		=s2 
+		”
+	上代码、）
+	（
+		g++ 
+		-I ${LIBTORCH}/include/torch/csrc/api/include/ 
+		-I ${LIBTORCH}/include/ 
+		-I ${LIBTORCH}/include/torch/ 
+		-L ${LIBTORCH}/lib 
+		-ltorch 
+		-lcaffe2 
+		-lc10 
+		-D_GLIBCXX_USE_CXX11_ABI=1 
+		example-app.cpp -o example-app 
+	）
+	^(\d+)c([cv]?)(|2|3)$、、r、下原样
+		设环境‘参数3’。
+		运行“gxx.zs ”（=s）“ ‘参数1’”分叉‘参数2’先
+			先了dcgan。
+			c先了。
+			‘参数2’。
+		了“.cpp ”分叉‘参数2’先
+			c“../image_io.cpp”。
+			v“ = opencv”。
+		了‘...’
+	上原样、
+	^(\d+)rr(r?)$、、r、下代码
+		运行./圈子先
+			加载lib/doscmd4。
+			别名号以参数1。
+			定义断、后以下代码
+				赋予以‘号’‘后’。
+				如果调用‘exist’、‘’那么先
+					‘’。
+					遁出
+				了。
+			上代码。
+			断dcgan。
+			断v。
+			断。
+			显示‘号’安在换行。
+			结束1。
+		了。
+		分叉‘参数2’先
+			“r”行解o。
+		了。
+	上代码、
+	^(\d+)\.\.$、、r、下代码
+		行解‘参数1’cc2、‘参数1’rrr。
+	上代码、

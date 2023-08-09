@@ -1,0 +1,36 @@
+#!/usr/lib/zhscript2-rust/webkitAsh --。
+
+加载lib/torch。
+
+赋予设备以调用‘得设备’。
+赋予图片以调用‘得图片’、/opt2/src/github.com/pytorch/examples/fast_neural_style/images/content-images/amber.jpg、‘设备’。
+如果‘图片’否则先
+	显示得图片失败换行。
+	结束1。
+了。
+赋予模型以调用‘加载模型’、saved_models/candy.pt、‘设备’。
+如果‘模型’否则先
+	显示加模型失败换行。
+	结束1。
+了。
+赋予出以调用‘运行模型’、‘模型’、‘图片’。
+
+定义保、文件以下代码
+	显示‘参数0’--‘参数’换行。
+	调用‘保存图片’、‘出’、‘文件’。
+	加载lib/magic4。
+	显示先调用‘得文件类型’、‘文件’了换行。
+上代码。
+（保/./home/./zzzzzzzzzzz/./图片/./bmp。结束。）
+定义存、后缀以下代码
+	显示‘参数0’--‘参数’--。
+	保/tmp/out.‘后缀’。
+上代码。
+存jpg。
+存png。
+存Png。
+存bmp。
+存bMP。
+存bmpx。
+
+结束。
