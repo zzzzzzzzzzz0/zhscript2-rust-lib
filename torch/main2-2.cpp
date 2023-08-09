@@ -128,8 +128,8 @@ int get_num_threads__() {
 	return torch::get_num_threads();
 }
 
-float test_f__(float f1, float f2) {
-	float f3 = f1 + f2 * 100 + 10000;
+double test_f__(double f1, double f2) {
+	double f3 = f1 + f2 * 100 + 10000;
 	std::cout << f1 << "," << f2 << " " << f3 << std::endl;
 	return f3;
 }
