@@ -3,6 +3,8 @@
 use zhscript2::{u_::*, as_ref__, as_mut_ref__};
 use std::{fs::{self, File}, io::prelude::*, default};
 use base64::{Engine as _, engine::general_purpose};
+#[cfg(feature = "re")]
+use regex::Regex;
 
 mod socket_;
 mod t_;
@@ -17,19 +19,37 @@ pub extern fn dir__(env:&code_::Env_) -> Result2_ {
 		args.to_vec__()
 	};
 	if_buzu__(args.len(), 2, usize::MAX)?;
-	/*if cfg!(debug_assertions) {
+	if cfg!(debug_assertions) {
 		println!("{:?}", args)
-	}*/
+	}
 
+	#[allow(non_snake_case)]
 	#[derive(Default, Debug)]
 	struct Opt_ {
 		s_:bool,
-		f_:bool,
 		a_d_:bool,
 		a_f_:bool,
 		a_h_:bool,
+		ah_:bool,
+		n_:bool,
+		f_:bool,
+		P_:bool,
+		#[cfg(feature = "re")]
+		match_:Option<Regex>,
 	}
 	let mut o:Opt_ = default::default();
+	if args.len() > 2 {
+		let s = &args[2];
+		if !s.is_empty() {
+			#[cfg(feature = "re")]
+			match Regex::new(&args[2]) {
+				Ok(re) => o.match_ = Some(re),
+				Err(err) => return result2_::err__(err.to_string())
+			}
+			#[cfg(not(feature = "re"))]
+			return result2_::err__([s, " 不支持处理"].concat())
+		}
+	}
 	if args.len() > 3 {
 		let opt = &args[3];
 		let mut c2 = ' ';
@@ -37,11 +57,18 @@ pub extern fn dir__(env:&code_::Env_) -> Result2_ {
 			let no_in__ = |s2:&str| {
 				result2_::err__(["设项 ".to_string(), c.to_string(), " 不在 ".to_string(), s2.to_string(), " 之列".to_string()].concat())
 			};
-			let mut b = true;
+			let mut b = false;
 			match c2 {
 				'a' => {
 					match c {
-						'-' => c2 = c,
+						'-' => {
+							c2 = c;
+							continue;
+						}
+						'h' => {
+							o.ah_ = true;
+							b = true;
+						}
 						_ => return no_in__("-")
 					}
 				}
@@ -52,17 +79,20 @@ pub extern fn dir__(env:&code_::Env_) -> Result2_ {
 						'h' => o.a_h_ = true,
 						_ => return no_in__("d、f、h")
 					}
-					c2 = ' ';
+					b = true;
 				}
-				_ => b = false
+				_ => {}
 			}
 			if b {
+				c2 = ' ';
 				continue;
 			}
 			match c {
 				's' => o.s_ = true,
-				'f' => o.f_ = true,
 				'a' => c2 = c,
+				'n' => o.n_ = true,
+				'f' => o.f_ = true,
+				'P' => o.P_ = true,
 				' ' => {}
 				_ => return no_in__("s、f、a")
 			}
@@ -92,36 +122,50 @@ pub extern fn dir__(env:&code_::Env_) -> Result2_ {
 			Ok(paths) => {
 				let mut paths2 = vec![];
 				for path in paths {
-					let path2 = path.unwrap().path();
-					let mut path3 = path2.display().to_string();
-					let mut typ = String::new();
-					if path2.is_dir() {
-						if o.s_ {
-							add__(&path3, path0.clone(), o, src, env)?;
+					if let Ok(path) = path {
+						let path2 = path.path();
+						let mut path3 = path2.display().to_string();
+						#[cfg(feature = "re")]
+						if let Some(re) = &o.match_ {
+							if !re.is_match(if o.P_ {&path3} else {
+								path2.file_name().unwrap().to_str().unwrap()
+							}) {
+								continue;
+							}
+						}
+						let mut path4 = path3[path0.len()..].to_string();
+						loop {
+							if path4.starts_with('/') {
+								path4 = path4[1..].to_string();
+							} else {break;}
+						}
+						let is_h = path4.starts_with('.');
+						let mut typ = String::new();
+						if path2.is_dir() {
+							if o.s_ && !(o.n_ && path2.is_symlink()) {
+								add__(&path3, path0.clone(), o, src, env)?;
+								continue;
+							}
+							if o.a_d_ {
+								continue;
+							}
+							if !o.f_ {
+								path3.push('/');
+							}
+							typ.push('d');
+						} else {
+							if o.a_f_ && !path2.is_symlink() {
+								continue;
+							}
+						}
+						if is_h && o.a_h_ {
 							continue;
 						}
-						if o.a_d_ {
-							continue;
+						if path2.is_symlink() {
+							typ.push('l');
 						}
-						if !o.f_ {
-							path3.push('/');
-						}
-						typ.push('d');
-					} else {
-						if o.a_f_ {
-							continue;
-						}
+						paths2.push(Item_ {title_:path4, path_:path3, typ_:typ});
 					}
-					let mut path4 = path3[path0.len()..].to_string();
-					loop {
-						if path4.starts_with('/') {
-							path4 = path4[1..].to_string();
-						} else {break;}
-					}
-					if o.a_h_ && path4.starts_with('.') {
-						continue;
-					}
-					paths2.push(Item_ {title_:path4, path_:path3, typ_:typ});
 				}
 				paths2.sort();
 				let mut only_b = false;
@@ -247,6 +291,7 @@ pub extern fn exist_val__(env:&code_::Env_) -> Result2_ {
 
 #[cfg(test)]
 mod tests {
+	#[allow(unused_imports)]
     use super::*;
 
     #[test]
