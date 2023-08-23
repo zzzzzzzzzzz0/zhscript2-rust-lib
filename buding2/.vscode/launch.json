@@ -7,7 +7,7 @@
         {
             "name": "t2-", "type": "cppdbg", "request": "launch", "preLaunchTask": "b--lib",
             "program": "/opt2/debug/zhscript2-rust/l", "args": [
-                "z.zs", "t2-"
+                "z.zhscript", "t2-"
             ], "stopAtEntry": false, "cwd": "${workspaceFolder}", "environment": [], "externalConsole": false, "MIMode": "gdb",
             "setupCommands": [{"text": "-enable-pretty-printing", "ignoreFailures": true}, {"text": "-gdb-set disassembly-flavor intel", "ignoreFailures": true}]
         }
@@ -15,7 +15,7 @@
         {
             "name": "t-ev", "type": "cppdbg", "request": "launch", "preLaunchTask": "b--lib",
             "program": "/opt2/debug/zhscript2-rust/l", "args": [
-                "z.zs", "t-ev"
+                "z.zhscript", "t-ev"
             ], "stopAtEntry": false, "cwd": "${workspaceFolder}", "environment": [], "externalConsole": false, "MIMode": "gdb",
             "setupCommands": [{"text": "-enable-pretty-printing", "ignoreFailures": true}, {"text": "-gdb-set disassembly-flavor intel", "ignoreFailures": true}]
         }
@@ -23,7 +23,7 @@
         {
             "name": "t-bf", "type": "cppdbg", "request": "launch", "preLaunchTask": "b--lib",
             "program": "/opt2/debug/zhscript2-rust/l", "args": [
-                "z.zs", "t-bf"
+                "z.zhscript", "t-bf"
             ], "stopAtEntry": false, "cwd": "${workspaceFolder}", "environment": [], "externalConsole": false, "MIMode": "gdb",
             "setupCommands": [{"text": "-enable-pretty-printing", "ignoreFailures": true}, {"text": "-gdb-set disassembly-flavor intel", "ignoreFailures": true}]
         }
@@ -31,7 +31,15 @@
         {
             "name": "tdir", "type": "cppdbg", "request": "launch", "preLaunchTask": "b--lib",
             "program": "/opt2/debug/zhscript2-rust/l", "args": [
-                "z.zs", "tdir"
+                "z.zhscript", "tdir"
+            ], "stopAtEntry": false, "cwd": "${workspaceFolder}", "environment": [], "externalConsole": false, "MIMode": "gdb",
+            "setupCommands": [{"text": "-enable-pretty-printing", "ignoreFailures": true}, {"text": "-gdb-set disassembly-flavor intel", "ignoreFailures": true}]
+        }
+        ,
+        {
+            "name": "/sh/ln2", "type": "cppdbg", "request": "launch", "preLaunchTask": "b--lib",
+            "program": "/opt2/debug/zhscript2-rust/l", "args": [
+                "/zzzzzzzzzzz/sh/ln2.zs", "-h2", "-fr", "/zzzzzzzzzzz/sh2", "rust", "..", "../."
             ], "stopAtEntry": false, "cwd": "${workspaceFolder}", "environment": [], "externalConsole": false, "MIMode": "gdb",
             "setupCommands": [{"text": "-enable-pretty-printing", "ignoreFailures": true}, {"text": "-gdb-set disassembly-flavor intel", "ignoreFailures": true}]
         }
