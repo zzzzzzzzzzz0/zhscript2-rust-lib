@@ -19,9 +19,9 @@ pub extern fn dir__(env:&code_::Env_) -> Result2_ {
 		args.to_vec__()
 	};
 	if_buzu__(args.len(), 2, usize::MAX)?;
-	if cfg!(debug_assertions) {
+	/*if cfg!(debug_assertions) {
 		println!("{:?}", args)
-	}
+	}*/
 
 	#[allow(non_snake_case)]
 	#[derive(Default, Debug)]
@@ -30,6 +30,7 @@ pub extern fn dir__(env:&code_::Env_) -> Result2_ {
 		a_d_:bool,
 		a_f_:bool,
 		a_h_:bool,
+		a_l_:bool,
 		ah_:bool,
 		n_:bool,
 		f_:bool,
@@ -69,7 +70,7 @@ pub extern fn dir__(env:&code_::Env_) -> Result2_ {
 							o.ah_ = true;
 							b = true;
 						}
-						_ => return no_in__("-")
+						_ => return no_in__("-、h")
 					}
 				}
 				'-' => {
@@ -77,7 +78,8 @@ pub extern fn dir__(env:&code_::Env_) -> Result2_ {
 						'd' => o.a_d_ = true,
 						'f' => o.a_f_ = true,
 						'h' => o.a_h_ = true,
-						_ => return no_in__("d、f、h")
+						'l' => o.a_l_ = true,
+						_ => return no_in__("d、f、h、l")
 					}
 					b = true;
 				}
@@ -94,7 +96,7 @@ pub extern fn dir__(env:&code_::Env_) -> Result2_ {
 				'f' => o.f_ = true,
 				'P' => o.P_ = true,
 				' ' => {}
-				_ => return no_in__("s、f、a")
+				_ => return no_in__("s、a、n、f、P")
 			}
 		}
 	}
@@ -154,7 +156,7 @@ pub extern fn dir__(env:&code_::Env_) -> Result2_ {
 							}
 							typ.push('d');
 						} else {
-							if o.a_f_ && !path2.is_symlink() {
+							if o.a_f_ && (!path2.is_symlink() || o.a_l_) {
 								continue;
 							}
 						}
