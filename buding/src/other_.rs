@@ -6,21 +6,46 @@ use super::t_::*;
 pub extern fn stoc__(arg:&[String], ret:&mut Vec<String>) -> Result<(), String> {
 	if_buzu__(arg.len(), 1, usize::MAX)?;
 	let mut ma = false;
+	let mut fu = false;
 	for idx in 1..arg.len() {
-		let s = &arg[idx];
-		match s.as_str() {
-			"码" => ma = true,
-			_ => {
-				return Err(("无效：").to_string() + s)
+		for c in arg[idx].chars() {
+			match c {
+				'码' => ma = true,
+				'附' => fu = true,
+				_ => return Err(("无效：").to_string() + &c.to_string())
 			}
 		}
 	}
 	let cs = arg[0].chars();
+	let mut fu2 = String::new();
+	let mut fu3 = false;
+	let mut fu4 = true;
 	for c in cs {
+		if fu {
+			if c == '|' {
+				fu3 = !fu3;
+				continue;
+			}
+			if fu3 {
+				fu2.push(c);
+				continue;
+			}
+			if fu4 {
+				fu4 = false;
+			} else {
+				ret.push(fu2.clone());
+				if !fu2.is_empty() {
+					fu2.clear();
+				}
+			}
+		}
 		ret.push(c.to_string());
 		if ma {
 			ret.push((c as u64).to_string());
 		}
+	}
+	if fu {
+		ret.push(String::new());
 	}
 	Ok(())
 }
@@ -52,4 +77,35 @@ extern fn is_jpeg__(arg:&[String], ret:&mut Vec<String>) -> Result<(), String> {
 		}
 		Err(e) => Err(e.to_string())
 	}
+}
+
+#[no_mangle]
+extern fn cmp2__(arg:&[String], ret:&mut Vec<String>) -> Result<(), String> {
+	if_buzu__(arg.len(), 2, 2)?;
+	let mut s1 = String::new();
+	let mut s2 = String::new();
+	let mut cs1 = arg[0].chars();
+	let mut cs2 = arg[1].chars();
+	loop {
+		if let Some(c1) = cs1.next() {
+			if let Some(c2) = cs2.next() {
+				if c1 != c2 {
+					s1.push(c1);
+					s2.push(c2);
+				}
+			} else {
+				s1.push(c1);
+			}
+		} else {
+			while let Some(c2) = cs2.next() {
+				s2.push(c2);
+			}
+			break;
+		}
+	}
+	if s1 != s2 {
+		ret.push(s1);
+		ret.push(s2);
+	}
+	Ok(())
 }
