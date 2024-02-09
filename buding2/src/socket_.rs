@@ -17,7 +17,6 @@ pub extern fn sock_bind__(env:&code_::Env_) -> Result2_ {
 	let ret = &mut as_mut_ref__!(env.ret);
 	match UnixListener::bind(addr) {
 		Ok(ul) => {
-			//let la = ul.local_addr().unwrap();
 			for i in ul.incoming() {
 				match i {
 					Ok(us) => {
@@ -32,12 +31,12 @@ pub extern fn sock_bind__(env:&code_::Env_) -> Result2_ {
 							let ret4 = t__(result_::List_::new());
 							let ret3 = eval_::hello__(&src, &mut code_::Env_::new9(t__(q2), ret4.clone(), env));
 							if ret3.is_err() {
-								if let Err((i, i2, s, _)) = &ret3 {
+								if let Err((i, i2, s, s2)) = &ret3 {
 									if *i == jump_::QUIT_ && s.is_empty() {
 										fs::remove_file(addr).unwrap();
 										process::exit(*i2);
 									}
-									return ret3
+									result2_::eprtn__(*i, *i2, s, s2);
 								}
 							}
 							let ret2 = as_ref__!(ret4).to_vec__();
