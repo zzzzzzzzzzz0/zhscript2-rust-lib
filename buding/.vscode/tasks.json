@@ -1,25 +1,6 @@
 {
     "tasks": [
         {
-            /*
-            "type": "lldb",
-            "request": "launch",
-            "name": "Debug unit tests in library 'buding'",
-            "cargo": {
-                "args": [
-                    "test",
-                    "--no-run",
-                    "--lib",
-                    "--package=buding"
-                ],
-                "filter": {
-                    "name": "buding",
-                    "kind": "lib"
-                }
-            },
-            "args": [],
-            "cwd": "${workspaceFolder}"
-            */
             "type": "shell",
             "label": "b--lib",
             "command": "cargo",
