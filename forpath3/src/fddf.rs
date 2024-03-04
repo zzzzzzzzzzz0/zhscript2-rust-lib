@@ -272,7 +272,7 @@ pub extern fn fddf__(env:&code_::Env_) -> Result2_ {
             Multiple
         }
 
-        let mut process = |fsize, dir_entry: Option<DirEntry>, lnk:Option<String>| {
+        let mut process = |fsize, dir_entry: Option<DirEntry>, lnk:Option<String>, lnk2:&Option<(usize, PathBuf)>| {
             if dir_entry.is_none() {
                 //paths1.push(paths.drain(..).collect());
                 let mut v = vec![];
@@ -281,6 +281,12 @@ pub extern fn fddf__(env:&code_::Env_) -> Result2_ {
                 return;
             }
             let path = dir_entry.unwrap().path().to_path_buf();
+            if let Some((i, pb)) = lnk2 {
+                let path1 = path.to_string_lossy().to_string();
+                let path2 = pb.to_string_lossy().to_string() + &path1[*i..];
+                paths.push((PathBuf::from(path2), fsize, Some(path1)));
+                return;
+            }
             let is_lnk = lnk.is_some();
             paths.push((path.clone(), fsize, lnk));
             if is_lnk {
@@ -302,18 +308,19 @@ pub extern fn fddf__(env:&code_::Env_) -> Result2_ {
             }
         };
 
-        let roots = if roots.is_empty() { vec![".".into()] } else { roots };
-        for root in roots {
-            let walkdir = if nonrecursive {
-                WalkDir::new(root).max_depth(1).follow_links(false)
-            } else {
-                WalkDir::new(root).follow_links(false)
-            };
+        fn for__<F1, F2, F3>(walkdir:WalkDir, regexp2: &Option<Regex>, minsize:u64, maxsize:u64,
+                has_lnk:bool, lnk2:&Option<(usize, PathBuf)>,
+                inc:&F1, check_inode:&mut F2, process:&mut F3)
+                where
+                F1:Fn(&DirEntry) -> bool,
+                F2:FnMut(&Metadata) -> bool,
+                F3:FnMut(u64, Option<DirEntry>, Option<String>, &Option<(usize, PathBuf)>),
+        {
             for dir_entry in walkdir {
                 match dir_entry {
                     Ok(dir_entry) => {
                         let ft = dir_entry.file_type();
-                        let ex = if let Some(r) = &regexp2 {
+                        let ex = if let Some(r) = regexp2 {
                             let f = dir_entry.path().to_str().unwrap();
                             r.is_match(&f)
                         } else {false};
@@ -323,9 +330,9 @@ pub extern fn fddf__(env:&code_::Env_) -> Result2_ {
                                     Ok(meta) => {
                                         let fsize = meta.len();
                                         if fsize >= minsize && fsize <= maxsize {
-                                            if check_inode(&mut inodes, &meta) {
-                                                if !hidden_excluded(&dir_entry) && matches_pattern(&dir_entry) {
-                                                    process(fsize, Some(dir_entry), None);
+                                            if check_inode(&meta) {
+                                                if inc(&dir_entry) {
+                                                    process(fsize, Some(dir_entry), None, lnk2);
                                                 }
                                             }
                                         }
@@ -336,14 +343,10 @@ pub extern fn fddf__(env:&code_::Env_) -> Result2_ {
                                 }
                             }
                             else if has_lnk && ft.is_symlink() {
-                                if hidden_excluded(&dir_entry) || !matches_pattern(&dir_entry) {
-                                    continue;
-                                }
                                 let pb0 = dir_entry.path().to_path_buf();
                                 let mut s = String::new();
                                 let mut pb = pb0.clone();
                                 loop {
-                                    //eprintln!("{:?}", pb);
                                     if pb.is_symlink() {
                                         if let Ok(pb2) = pb.read_link() {
                                             s = pb2.to_str().unwrap().to_string();
@@ -359,22 +362,41 @@ pub extern fn fddf__(env:&code_::Env_) -> Result2_ {
                                         if pb.exists() {
                                             s = pb.canonicalize().unwrap().to_str().unwrap().to_string();
                                         } else {
-                                            //s = pb.to_str().unwrap().to_string();
                                             s.clear()
                                         }
                                         break;
                                     }
                                     pb = PathBuf::from(&s);
                                 }
-                                //eprintln!(" {}", s);
-                                process(0, Some(dir_entry), Some(s));
+                                if pb.is_dir() {
+                                    for__(WalkDir::new(&s).follow_links(false), regexp2, minsize, maxsize,
+                                        has_lnk, &Some((s.len(), pb0.clone())),
+                                        inc, check_inode, process);
+                                } else {
+                                    if !inc(&dir_entry) {
+                                        continue;
+                                    }
+                                    process(0, Some(dir_entry), Some(s), lnk2);
+                                }
                             }
                         }
                     }
                     Err(_e) => {}
                 }
             }
-            process(0, None, None);
+            process(0, None, None, lnk2);
+        }
+        let roots = if roots.is_empty() { vec![".".into()] } else { roots };
+        for root in roots {
+            let walkdir = if nonrecursive {
+                WalkDir::new(root).max_depth(1).follow_links(false)
+            } else {
+                WalkDir::new(root).follow_links(false)
+            };
+            for__(walkdir, &regexp2, minsize, maxsize, has_lnk, &None,
+                &|dir_entry| !hidden_excluded(dir_entry) && matches_pattern(dir_entry),
+                &mut |meta| check_inode(&mut inodes, meta),
+                &mut |fsize, dir_entry, lnk, lnk2| process(fsize, dir_entry, lnk, lnk2));
         }
     });
 
