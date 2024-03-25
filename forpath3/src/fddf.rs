@@ -308,7 +308,7 @@ pub extern fn fddf__(env:&code_::Env_) -> Result2_ {
             }
         };
 
-        fn for__<F1, F2, F3>(walkdir:WalkDir, regexp2: &Option<Regex>, minsize:u64, maxsize:u64,
+        fn for__<F1, F2, F3>(walkdir:WalkDir, regexp2: &Option<Regex>, minsize:u64, maxsize:u64, is_root:bool,
                 has_lnk:bool, lnk2:&Option<(usize, PathBuf)>,
                 inc:&F1, check_inode:&mut F2, process:&mut F3)
                 where
@@ -369,7 +369,7 @@ pub extern fn fddf__(env:&code_::Env_) -> Result2_ {
                                     pb = PathBuf::from(&s);
                                 }
                                 if pb.is_dir() {
-                                    for__(WalkDir::new(&s).follow_links(false), regexp2, minsize, maxsize,
+                                    for__(WalkDir::new(&s).follow_links(false), regexp2, minsize, maxsize, false,
                                         has_lnk, &Some((s.len(), pb0.clone())),
                                         inc, check_inode, process);
                                 } else {
@@ -384,7 +384,9 @@ pub extern fn fddf__(env:&code_::Env_) -> Result2_ {
                     Err(_e) => {}
                 }
             }
-            process(0, None, None, lnk2);
+            if is_root {
+                process(0, None, None, lnk2);
+            }
         }
         let roots = if roots.is_empty() { vec![".".into()] } else { roots };
         for root in roots {
@@ -393,7 +395,7 @@ pub extern fn fddf__(env:&code_::Env_) -> Result2_ {
             } else {
                 WalkDir::new(root).follow_links(false)
             };
-            for__(walkdir, &regexp2, minsize, maxsize, has_lnk, &None,
+            for__(walkdir, &regexp2, minsize, maxsize, true, has_lnk, &None,
                 &|dir_entry| !hidden_excluded(dir_entry) && matches_pattern(dir_entry),
                 &mut |meta| check_inode(&mut inodes, meta),
                 &mut |fsize, dir_entry, lnk, lnk2| process(fsize, dir_entry, lnk, lnk2));
@@ -474,7 +476,6 @@ pub extern fn fddf__(env:&code_::Env_) -> Result2_ {
             v.append(&mut v2);
         }
         v.dedup();
-        //println!("{:?}", v);
         for path in v {
             for paths in &mut paths1 {
                 if let Some(idx) = paths.iter().position(|i| i.0.eq(&path.1)) {
@@ -486,27 +487,23 @@ pub extern fn fddf__(env:&code_::Env_) -> Result2_ {
     if let Some(code) = code {
         let mut only_b = false;
         'l: for paths in &mut paths1 {
-            paths.sort();
-            /*for i in &paths {
-                println!("{:?}", i);
-            }*/
+            paths.sort_by(|a, b| {
+                zhscript2_util::cmp_::bb__(
+                    a.0.to_str().unwrap().as_bytes(),
+                    b.0.to_str().unwrap().as_bytes())
+            });
             for i in paths {
                 let q = Qv_::new2(Some(env.q.clone()));
                 {
                     let args = &mut as_mut_ref__!(q.args_);
-                    let path = i.0.to_string_lossy();
-                    let mut name = path.to_string();
+                    let path = i.0.to_string_lossy().to_string();
+                    let mut start = 0;
                     for root in &roots2 {
-                        if name.starts_with(root) {
-                            let start = root.len() + if root.ends_with('/') {0} else {1};
-                            if start < name.len() {
-                                name = name[start..].to_string();
-                            } else {
-                                name.clear();
-                            }
+                        if path.starts_with(root) {
+                            start = root.len() + if root.ends_with('/') {0} else {1};
                         }
                     }
-                    args.add__(name);
+                    args.add__(zhscript2_util::title_::by_path__(&path, start, usize::MAX, "/", &|i| i.starts_with("index") || i.ends_with("_") ));
                     as_ref__!(env.w).dunhao__(args);
                     args.add__(path);
                     if let Some(s) = &i.2 {
