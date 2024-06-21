@@ -240,11 +240,7 @@ pub extern fn fddf__(env:&code_::Env_) -> Result2_ {
     let mut hashes = HashMap::default();
     let mut inodes = HashSet::default();
     let mut paths = vec![];
-    let mut paths1 = vec![];
-    let mut roots2 = vec![];
-    for root in &roots {
-        roots2.push(root.to_string_lossy().to_string());
-    }
+    let roots2:Vec<String> = roots.iter().map(|i| i.to_string_lossy().to_string()).collect();
 
     #[cfg(unix)]
     fn check_inode(set: &mut HashSet<(u64, u64)>, entry: &Metadata) -> bool {
@@ -271,6 +267,8 @@ pub extern fn fddf__(env:&code_::Env_) -> Result2_ {
             One(PathBuf),
             Multiple
         }
+
+        let mut paths1 = vec![];
 
         let mut process = |fsize, dir_entry: Option<DirEntry>, lnk:Option<String>, lnk2:&Option<(usize, PathBuf)>| {
             if dir_entry.is_none() {
@@ -316,6 +314,7 @@ pub extern fn fddf__(env:&code_::Env_) -> Result2_ {
                 F2:FnMut(&Metadata) -> bool,
                 F3:FnMut(u64, Option<DirEntry>, Option<String>, &Option<(usize, PathBuf)>),
         {
+            let mut first = true;
             for dir_entry in walkdir {
                 match dir_entry {
                     Ok(dir_entry) => {
@@ -326,19 +325,25 @@ pub extern fn fddf__(env:&code_::Env_) -> Result2_ {
                         } else {false};
                         if !ex {
                             if ft.is_file() {
-                                match dir_entry.metadata() {
-                                    Ok(meta) => {
-                                        let fsize = meta.len();
-                                        if fsize >= minsize && fsize <= maxsize {
-                                            if check_inode(&meta) {
-                                                if inc(&dir_entry) {
-                                                    process(fsize, Some(dir_entry), None, lnk2);
+                                if lnk2.is_some() {
+                                    if inc(&dir_entry) {
+                                        process(0, Some(dir_entry), None, lnk2);
+                                    }
+                                } else {
+                                    match dir_entry.metadata() {
+                                        Ok(meta) => {
+                                            let fsize = meta.len();
+                                            if fsize >= minsize && fsize <= maxsize {
+                                                if check_inode(&meta) {
+                                                    if inc(&dir_entry) {
+                                                        process(fsize, Some(dir_entry), None, lnk2);
+                                                    }
                                                 }
                                             }
                                         }
-                                    }
-                                    Err(e) => {
-                                        eprintln!("{}", e);
+                                        Err(e) => {
+                                            eprintln!("{}", e);
+                                        }
                                     }
                                 }
                             }
@@ -372,6 +377,9 @@ pub extern fn fddf__(env:&code_::Env_) -> Result2_ {
                                     for__(WalkDir::new(&s).follow_links(false), regexp2, minsize, maxsize, false,
                                         has_lnk, &Some((s.len(), pb0.clone())),
                                         inc, check_inode, process);
+                                    if first {
+                                        break;
+                                    }
                                 } else {
                                     if !inc(&dir_entry) {
                                         continue;
@@ -382,6 +390,9 @@ pub extern fn fddf__(env:&code_::Env_) -> Result2_ {
                         }
                     }
                     Err(_e) => {}
+                }
+                if first {
+                    first = false;
                 }
             }
             if is_root {
@@ -399,6 +410,15 @@ pub extern fn fddf__(env:&code_::Env_) -> Result2_ {
                 &|dir_entry| !hidden_excluded(dir_entry) && matches_pattern(dir_entry),
                 &mut |meta| check_inode(&mut inodes, meta),
                 &mut |fsize, dir_entry, lnk, lnk2| process(fsize, dir_entry, lnk, lnk2));
+        }
+
+        for v in &mut paths1 {
+            v.sort_by(|a, b| {
+                zhscript2_util::cmp_::bb__(
+                    a.0.to_str().unwrap().as_bytes(),
+                    b.0.to_str().unwrap().as_bytes())
+            });
+            paths.append(v);
         }
     });
 
@@ -433,13 +453,11 @@ pub extern fn fddf__(env:&code_::Env_) -> Result2_ {
             } else {
                 let mut i1 = String::new();
                 for path in entries {
-                    for paths in &mut paths1 {
-                        if let Some(idx) = paths.iter().position(|i| i.0.eq(&path)) {
-                            if i1.is_empty() {
-                                i1.push_str(&paths[idx].0.to_string_lossy());
-                            } else {
-                                paths2.push((paths.remove(idx), i1.clone()));
-                            }
+                    if let Some(idx) = paths.iter().position(|i| i.0.eq(&path)) {
+                        if i1.is_empty() {
+                            i1.push_str(&paths[idx].0.to_string_lossy());
+                        } else {
+                            paths2.push((paths.remove(idx), i1.clone()));
                         }
                     }
                 }
@@ -467,54 +485,54 @@ pub extern fn fddf__(env:&code_::Env_) -> Result2_ {
     }
 
     {
-        let mut v = vec![];
-        for paths in &paths1 {
-            let mut v2 = paths.iter()
-                .filter(|i| if let Some(s) = &i.2 {!s.is_empty()} else {false})
-                .map(|i| (i.0.to_string_lossy().to_string(), PathBuf::from(i.2.clone().unwrap())))
-                .collect::<Vec<(String, PathBuf)>>();
-            v.append(&mut v2);
-        }
+        let mut v = paths.iter()
+            .filter(|i| if let Some(s) = &i.2 {!s.is_empty()} else {false})
+            .map(|i| (i.0.to_string_lossy().to_string(), i.2.clone().unwrap()))
+            .collect::<Vec<(String, String)>>();
         v.dedup();
         for path in v {
-            for paths in &mut paths1 {
-                if let Some(idx) = paths.iter().position(|i| i.0.eq(&path.1)) {
-                    paths2.push((paths.remove(idx), path.0.clone()));
+            let path1 = PathBuf::from(&path.1);
+            if let Some(idx) = paths.iter().position(|i| i.0.eq(&path1)) {
+                paths2.push((paths.remove(idx), path.0.clone()));
+                total_dupes += 1;
+            }
+
+            let v = paths.iter().enumerate()
+                .filter(|(_idx, i)| if let Some(s) = &i.2 {path.1.eq(s)} else {false})
+                .map(|(idx, _i)| idx)
+                .collect::<Vec<usize>>();
+            if v.len() > 1 {
+                for idx in v.iter().rev().skip(1) {
+                    paths2.push((paths.remove(*idx), path.1.clone()));
+                    total_dupes += 1;
                 }
             }
         }
     }
     if let Some(code) = code {
         let mut only_b = false;
-        'l: for paths in &mut paths1 {
-            paths.sort_by(|a, b| {
-                zhscript2_util::cmp_::bb__(
-                    a.0.to_str().unwrap().as_bytes(),
-                    b.0.to_str().unwrap().as_bytes())
-            });
-            for i in paths {
-                let q = Qv_::new2(Some(env.q.clone()));
-                {
-                    let args = &mut as_mut_ref__!(q.args_);
-                    let path = i.0.to_string_lossy().to_string();
-                    let mut start = 0;
-                    for root in &roots2 {
-                        if path.starts_with(root) {
-                            start = root.len() + if root.ends_with('/') {0} else {1};
-                        }
-                    }
-                    args.add__(zhscript2_util::title_::by_path__(&path, start, usize::MAX, "/", &|i| i.starts_with("index") || i.ends_with("_") ));
-                    as_ref__!(env.w).dunhao__(args);
-                    args.add__(path);
-                    if let Some(s) = &i.2 {
-                        as_ref__!(env.w).dunhao__(args);
-                        args.add__(s);
+        for i in &paths {
+            let q = Qv_::new2(Some(env.q.clone()));
+            {
+                let args = &mut as_mut_ref__!(q.args_);
+                let path = i.0.to_string_lossy().to_string();
+                let mut start = 0;
+                for root in &roots2 {
+                    if path.starts_with(root) {
+                        start = root.len() + if root.ends_with('/') {0} else {1};
                     }
                 }
-                let ret = eval_::hello__(&code, &mut code_::Env_::new2(t__(q), env));
-                jump_::for_err2__(ret, &mut only_b)?;
-                if only_b {break 'l;}
+                args.add__(zhscript2_util::title_::by_path__(&path, start, usize::MAX, "/", &|i| i.starts_with("index") || i.ends_with("_") ));
+                as_ref__!(env.w).dunhao__(args);
+                args.add__(path);
+                if let Some(s) = &i.2 {
+                    as_ref__!(env.w).dunhao__(args);
+                    args.add__(s);
+                }
             }
+            let ret = eval_::hello__(&code, &mut code_::Env_::new2(t__(q), env));
+            jump_::for_err2__(ret, &mut only_b)?;
+            if only_b {break;}
         }
     }
     if let Some(code) = code2 {
@@ -536,13 +554,7 @@ pub extern fn fddf__(env:&code_::Env_) -> Result2_ {
         let q = Qv_::new2(Some(env.q.clone()));
         {
             let args = &mut as_mut_ref__!(q.args_);
-            {
-                let mut len = 0;
-                for paths in &mut paths1 {
-                    len += paths.len();
-                }
-                args.add__(len);
-            }
+            args.add__(paths.len());
             as_ref__!(env.w).dunhao__(args);
             args.add__(total_dupes);
             as_ref__!(env.w).dunhao__(args);
