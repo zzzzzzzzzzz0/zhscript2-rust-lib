@@ -28,6 +28,9 @@ K:Fn(&str) -> bool
 		if idx == end {
 			if let Some(idx) = i.rfind('.') {
 				end2 = idx;
+				if start > end2 {
+					end2 = start;
+				}
 			}
 		}
 		skip = false;
