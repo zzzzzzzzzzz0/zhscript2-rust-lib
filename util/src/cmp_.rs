@@ -1,3 +1,13 @@
+fn u__(s:&str) -> u64 {
+    match s.parse() {
+        Ok(u) => u,
+        Err(e) => match e.kind() {
+            std::num::IntErrorKind::PosOverflow => u64::max_value(),
+            _ => panic!("{}", e)
+        }
+    }
+}
+
 use std::cmp::Ordering;
 pub fn bb__(s1:&[u8], s2:&[u8]) -> Ordering {
     let mut i1 = 0;
@@ -15,7 +25,6 @@ pub fn bb__(s1:&[u8], s2:&[u8]) -> Ordering {
         }
         let c1 = s1[i1];
         let c2 = s2[i2];
-        //println!("{:?} {:?} {:?} {:?} {:?} {:?}", c1 as char,c2 as char,i1,i2, c1,c2);
         let to_n1 = c1 >= b'0' && c1 <= b'9';
         let to_n2 = c2 >= b'0' && c2 <= b'9';
         if to_n1 {
@@ -36,9 +45,8 @@ pub fn bb__(s1:&[u8], s2:&[u8]) -> Ordering {
             if n2.is_empty() {
                 return if c2 > b'0' {Ordering::Less} else {Ordering::Greater}
             }
-            let u1:u64 = n1.parse().unwrap();
-            let u2:u64 = n2.parse().unwrap();
-            //println!("{:20} <>\n{:20}", u1,u2);
+            let u1:u64 = u__(&n1);
+            let u2:u64 = u__(&n2);
             if u1 < u2 {
                 return Ordering::Less
             }
