@@ -33,7 +33,7 @@ pub extern fn sock_bind__(env:&code_::Env_) -> Result2_ {
 							if ret3.is_err() {
 								if let Err((i, i2, s, s2)) = &ret3 {
 									if *i == jump_::QUIT_ && s.is_empty() {
-										fs::remove_file(addr).unwrap();
+										if let Err(_) = fs::remove_file(addr) {}
 										process::exit(*i2);
 									}
 									result2_::eprtn__(*i, *i2, s, s2);
