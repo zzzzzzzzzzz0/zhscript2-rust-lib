@@ -8,7 +8,7 @@ crate-type = ["cdylib"]
 
 [dependencies]
 zhscript2 = {version = "4.6.6", path = "../../zhscript2-rust", features = ["thread"]}
-zhscript2_util = {version = "0.1.0", path = "../util"}
+zhscript2_util = {version = "0.2.0", path = "../util"}
 structopt = "0.3.26"
 walkdir = "2.3.2"
 scoped_threadpool = "0.1.9"
