@@ -23,21 +23,71 @@
 
 加载lib/clpars4。
 赋予解以调用‘命令行加回调’、、
-	l、“运行“ls -lh --color””、0、、
+	1|2|3|4|5、、0、下代码
+		加载（lib/）curl4。
+		分叉‘参数0’先
+			1显示先调用‘curl_version’了换行。
+			先
+				赋予柄以调用‘curl_easy_init’。
+				圈子先
+					定义调以下代码
+						赋予错以调用‘‘参数1’’、‘参数栈【2】’。
+						如果‘错’那么先
+							显示“错‘错’ ‘参数’”换行。
+							遁出。
+						了。
+					上代码。
+					分叉‘参数0’先
+						2先
+							调curl_easy_setopt、‘柄’、‘CURLOPT_URL’、https://download.pytorch.org/libtorch/cpu/libtorch-shared-with-deps-1.11.0%2Bcpu.zip。
+							调curl_easy_setopt、‘柄’、‘CURLOPT_HEADER’、1。
+							调curl_easy_setopt、‘柄’、‘CURLOPT_NOBODY’、1。
+						了。
+						3、4、5先
+							解释【/opt2/debug/zhscript2-rust/lib/curle】下代码
+模块“curl二库”。
+函数集“‘参数0’.so”。
+
+函数“加头”以“head__”、“i-&-Z”。
+函数“释放头”以“head_free__”。
+
+函数“打开写”以“write_open__”、“i-&-c*-i”。
+函数“获取写”以“write_get__”、“c*”。
+函数“关闭写”以“write_close__”。
+							上代码。
+							调curl_easy_setopt、‘柄’、‘CURLOPT_URL’、分叉‘参数0’先
+								“https://www.baidu.com”。
+								5“https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png”。
+							了。
+							调打开写、‘柄’、解释下代码
+								显示‘参数’换行。
+								‘参数栈’
+							上代码、分叉‘参数0’先
+								3先/tmp/cu.html、1了。
+								4先、0了。
+								5先/tmp/cu.png、1了。
+							了。
+						了。
+					了。
+					赋予果以调用‘curl_easy_perform’、‘柄’。
+					显示‘果’换行。
+				了。
+				调用‘curl_easy_cleanup’、‘柄’。
+				分叉‘参数0’先
+					3、4、5先
+						显示先调用‘获取写’了换行。
+						调用‘关闭写’。
+					了。
+				了。
+			了
+		了
+	上代码、
 	--、下代码
 		赋予公共【顶】以‘公共’“ ‘参数1’”。
 	上代码、1、、
 	-h2、“赋予调试【顶】以1。”、0、、
 	-h4、“赋予更多【顶】以1。”、0、、
-	#、、h、下代码
-		加载lib/（）curl4。
-		显示先调用‘curl_version’了换行。
-		赋予柄以调用‘curl_easy_init’。
-		调用‘curl_easy_setopt’、‘柄’、‘CURLOPT_URL’、https://download.pytorch.org/libtorch/cpu/libtorch-shared-with-deps-1.11.0%2Bcpu.zip。
-		调用‘curl_easy_setopt’、‘柄’、‘CURLOPT_HEADER’、1。
-		调用‘curl_easy_setopt’、‘柄’、‘CURLOPT_NOBODY’、1。
-		赋予果以调用‘curl_easy_perform’、‘柄’。
-		显示‘果’换行。
-		调用‘curl_easy_cleanup’、‘柄’。
-	上代码。
+	#、下代码
+		行解3
+	上代码、h、。
 调用‘命令行解析’、‘解’、‘参数栈’。
