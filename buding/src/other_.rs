@@ -109,3 +109,81 @@ extern fn cmp2__(arg:&[String], ret:&mut Vec<String>) -> Result<(), String> {
 	}
 	Ok(())
 }
+
+#[no_mangle]
+extern fn mk_id__(arg:&[String], ret:&mut Vec<String>) -> Result<(), String> {
+	if_buzu__(arg.len(), 1, 2)?;
+	let src = &arg[0];
+	let typ = if arg.len() > 1 && !arg[1].is_empty() {arg[1].as_str()} else {"w"};
+	match typ {
+		"w" | "w2" => {
+			let mut s = String::new();
+			let mut cs = src.chars();
+			let gang: bool = typ == "w2";
+			let c2s = |c, first, s:&mut String| {
+				let jinzhi = 26 + 26 + if first {0} else {10 + if gang {1} else {2}};
+				if gang && !first && !s.ends_with('_') {
+					s.push('_');
+				}
+				let mut cc = c as u32;
+				loop {
+					let mut i = cc % jinzhi;
+					//-45 _95
+					if cc < 256 {
+						if !gang && cc >= 95 {i -= 1;}
+						if i >= 45 {i -= 1;}
+					}
+					match i {
+						62 => s.push('-'),
+						63 => s.push('_'),
+						_ =>
+						if i < 26 {
+							s.push(char::from_u32('a' as u32 + i).unwrap());
+						} else if i >= 26 && i < 52 {
+							s.push(char::from_u32('A' as u32 + i - 26).unwrap());
+						} else {
+							s.push(char::from_u32('0' as u32 + i - 52).unwrap());
+						}
+					}
+					let i = cc / jinzhi;
+					if i == 0 {break;}
+					cc = i;
+				}
+				if gang {
+					s.push('_');
+				}
+			};
+			let mut first = true;
+			while let Some(c) = cs.next() {
+				if first {
+					first = false;
+					if !(c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z') {
+						c2s(c, true, &mut s);
+						continue;
+					}
+				} else if c == '_' {
+					if gang {
+						c2s(c, false, &mut s);
+						continue;
+					}
+				} else if !(c == '-'
+						|| c >= '0' && c <= '9'
+						|| c >= 'a' && c <= 'z'
+						|| c >= 'A' && c <= 'Z') {
+					c2s(c, false, &mut s);
+					continue;
+				}
+				s.push(c);
+			}
+			ret.push(s);
+		}
+		"i" => {
+			use std::hash::Hasher;
+			let mut h = std::collections::hash_map::DefaultHasher::new();
+			h.write(src.as_bytes());
+			ret.push(h.finish().to_string());
+		}
+		_ => return Err(typ.to_string())
+	}
+	Ok(())
+}
