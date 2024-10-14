@@ -305,7 +305,7 @@ pub extern fn exist_val__(env:&code_::Env_) -> Result2_ {
 				None
 			}, next, false, false);
 
-			if(b2) {break;}
+			if b2 {break;}
 
 			q2 = up_q.clone();
 			val.clear();
@@ -350,11 +350,11 @@ pub extern fn test__(env:&code_::Env_) -> Result2_ {
 			i.s__(&mut val);
 		}
 		idx += 1;
-		let mut b2 = idx >= a.len();
+		let b2 = idx >= a.len();
 		if b || b2 {
 			w.dunhao__(&mut ret);
 			ret.add__(val.clone());
-			if(b2) {break;}
+			if b2 {break;}
 			val.clear();
 		}
 	}
