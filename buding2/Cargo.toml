@@ -1,6 +1,6 @@
 [package]
 name = "buding2"
-version = "0.2.0"
+version = "0.3.0"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
@@ -9,7 +9,7 @@ edition = "2021"
 crate-type = ["cdylib"]
 
 [dependencies]
-zhscript2 = {version = "4.9.20", path = "../../zhscript2-rust", features = ["thread"]}
+zhscript2 = {version = "4.10.14", path = "../../zhscript2-rust", features = ["thread"]}
 base64 = "0.21.0"
 regex = { version = "1.3.4", optional = true }
 

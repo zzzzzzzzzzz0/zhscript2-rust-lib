@@ -244,13 +244,19 @@ pub extern fn exist_val__(env:&code_::Env_) -> Result2_ {
 	val.clear();
 
 	as_ref__!(a[2]).s__(&mut val);
-	let only1 = !val.is_empty();
+	let max = if val.is_empty() {usize::max_value()} else {
+		match val.parse::<usize>() {
+			Ok(u) => u,
+			Err(e) => return result2_::err__(e.to_string())
+		}
+	};
 	val.clear();
 
 	let mut idx = 4;
 	let up_q = q.up_.clone();
 	let mut q2 = up_q.clone();
-	let mut first = true;
+	let mut cnt = 0;
+	let mut ret = as_mut_ref__!(env.ret);
 	while idx < a.len() {
 		let i = as_ref__!(a[idx]);
 		let mut b = false;
@@ -270,11 +276,6 @@ pub extern fn exist_val__(env:&code_::Env_) -> Result2_ {
 		idx += 1;
 		let mut b2 = idx >= a.len();
 		if b || b2 {
-			if first {first = false;} else {
-				as_ref__!(env.w).dunhao__(&mut as_mut_ref__!(env.ret));
-			}
-
-			let mut has = false;
 			qv_::for3__(q2.unwrap(), env.w.clone(), |q, _, _| -> Option<()> {
 				let q = as_ref__!(q);
 				for i in &q.vars_.a_ {
@@ -285,19 +286,16 @@ pub extern fn exist_val__(env:&code_::Env_) -> Result2_ {
 						if !ret2.is_empty() {
 							let s = ret2.s__();
 							if /*cmp(&s, &val)*/ if cntn {s.contains(&val)} else {s == val} {
-								let mut ret = as_mut_ref__!(env.ret);
 								let w = as_ref__!(env.w);
-								if has {
-									ret.add__(w.kws_.dunhao_.s_.clone());
+								if cnt > 0 {
+									as_ref__!(env.w).dunhao__(&mut ret);
 								}
-								if only1 {
-									ret.add__(name);
+								cnt += 1;
+								ret.add__(name);
+								if max < usize::max_value() && cnt >= max {
 									b2 = true;
 									return Some(());
-								} else {
-									ret.add__(w.text__(name));
 								}
-								has = true;
 							}
 						}
 					}
