@@ -5,6 +5,9 @@
 
 函数“多串更换”以“gjke4_replace__”。
 函数“串截取”以“gjke4_strmid__”。
+函数“串显长”以“gjke4_sp_len__”。
+
+待函数“fileinfo”以“file4_fileinfo__”。
 
 函数“串拆成字”以“stoc__”（串（、码（带上 unicode 码）附（以 | 为分割加后））。果：参数栈）。
 函数“is-jpeg”以“is_jpeg__”（路径。果：1（是） 0（否） 空（尾破损/截断））。
